@@ -3,8 +3,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
 <script>
   const socket = io('http://localhost:9000');
+  socket.on('connect', () => {
+    console.log(socket.id);
+  });
+  
   socket.on('messageFromServer', (dataFromServer) => {
     console.log(dataFromServer);
     socket.emit('dataToServer', { data: "Data from the Client!" });
+  });
+
+  socket.on('ping', () => {
+    console.log("Ping was recieved from the server.");
+    console.log(io.protocol);
+  });
+
+  socket.on('pong', (latency) => {
+    console.log(latency);
+    console.log("Pong was send from client");
   });
 </script>
